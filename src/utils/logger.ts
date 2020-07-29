@@ -12,9 +12,8 @@ export default class Logger {
 
   constructor() {
     this.logger = createLogger({
-      level: config.logLevel,
+      level: config.default.logLevel,
       format: format.combine(
-        format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`),
         format.timestamp({
           format: 'YYYY MM-DD HH:mm:ss',
         }),
@@ -33,8 +32,8 @@ export default class Logger {
     }
   }
 
-  public log(level: string, msg: string): void {
-    this.logger.log(level, msg);
+  public log(level: string, msg: string, ...meta: never[]): void {
+    this.logger.log(level, msg, meta);
   }
 
   public getRequestLogger(): e.Handler {

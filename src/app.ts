@@ -1,6 +1,6 @@
-import 'dotenv/config';
 import express, { Application } from 'express';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 
 import Controller from './interfaces/controller.interface';
 import errorMiddleware, { errors } from './middleware/error.middleware';
@@ -16,6 +16,7 @@ class App {
     this.logger = new Logger();
     this.port = Number(process.env.PORT) || 3000;
 
+    this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeContollers(controllers);
     this.initializeErrorHandling();
@@ -42,6 +43,16 @@ class App {
 
   public getServer(): Application {
     return this.app;
+  }
+
+  private connectToDatabase() {
+    const { MONGO_URL } = process.env;
+    mongoose
+      .connect(`${MONGO_URL}`, { useUnifiedTopology: true, useNewUrlParser: true })
+      .then(() => {
+        console.log(`Connected to the DB successfully`);
+      })
+      .catch((err) => console.log(err));
   }
 
   public listen(): void {

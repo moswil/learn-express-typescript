@@ -19,7 +19,7 @@ class UserController implements Controller {
 
   private getUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      this.logger.log('info', 'Get User');
+      this.logger.log('debug', 'Get User');
       res.status(200).json({
         user: 'Moses',
       });
