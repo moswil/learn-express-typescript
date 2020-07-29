@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 
-import Controller from './interfaces/controller.interface';
+import IController from './interfaces/controller.interface';
 import errorMiddleware, { errors } from './middleware/error.middleware';
 import Logger from './utils/logger';
 
@@ -11,7 +11,7 @@ class App {
   public port: number;
   public logger: Logger;
 
-  constructor(controllers: Controller[]) {
+  constructor(controllers: IController[]) {
     this.app = express();
     this.logger = new Logger();
     this.port = Number(process.env.PORT) || 3000;
@@ -29,7 +29,7 @@ class App {
     this.app.use(this.logger.getRequestLogger());
   }
 
-  private initializeContollers(controllers: Controller[]) {
+  private initializeContollers(controllers: IController[]) {
     controllers.forEach((controller) => {
       this.app.use('/api/v1', controller.router);
     });

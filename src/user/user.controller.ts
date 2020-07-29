@@ -1,9 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
 
-import Controller from '../interfaces/controller.interface';
+import IController from '../interfaces/controller.interface';
 import Logger from '../utils/logger';
 
-class UserController implements Controller {
+class UserController implements IController {
   public path = '/users';
   public router = Router();
   public logger: Logger;
