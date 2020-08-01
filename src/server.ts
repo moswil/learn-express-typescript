@@ -1,11 +1,16 @@
 import 'dotenv/config';
 import App from './app';
 import PostController from './posts/post.controller';
-import UserController from './user/user.controller';
+import UserController from './users/user.controller';
 import validateEnv from './utils/validateEnv';
+import exceptionHandler from './utils/handleExceptions';
 
 validateEnv();
 
+exceptionHandler('uncaughtException');
+
 const app = new App([new PostController(), new UserController()]);
 
-app.listen();
+const server = app.listen();
+
+exceptionHandler('unhandledRejection', server);
