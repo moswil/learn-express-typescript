@@ -32,7 +32,7 @@ export default class Logger {
     }
   }
 
-  public log(level: string, msg: string, ...meta: never[]): void {
+  public log(level: string, msg: string, ...meta: any[]): void {
     this.logger.log(level, msg, meta);
   }
 

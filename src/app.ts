@@ -3,8 +3,9 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 
 import IController from './interfaces/controller.interface';
-import errorMiddleware, { errors } from './middleware/error.middleware';
+import { errors } from './middleware/error.middleware';
 import Logger from './utils/logger';
+import { Server } from 'http';
 
 class App {
   public app: Application;
@@ -38,7 +39,7 @@ class App {
   private initializeErrorHandling() {
     this.app.use(this.logger.getRequestErrorLogger());
     this.app.use(errors.notFound);
-    this.app.use(errorMiddleware);
+    this.app.use(errors.errorMiddleware);
   }
 
   public getServer(): Application {
@@ -55,8 +56,8 @@ class App {
       .catch((err) => console.log(err));
   }
 
-  public listen(): void {
-    this.app.listen(this.port, (err) => {
+  public listen(): Server {
+    return this.app.listen(this.port, (err) => {
       if (err) {
         console.log(err);
       }

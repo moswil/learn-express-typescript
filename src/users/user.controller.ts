@@ -1,15 +1,13 @@
 import { Router, Request, Response, NextFunction } from 'express';
 
 import IController from '../interfaces/controller.interface';
-import Logger from '../utils/logger';
+import catchAsync from '../utils/catchAsync';
 
 class UserController implements IController {
   public path = '/users';
   public router = Router();
-  public logger: Logger;
 
   constructor() {
-    this.logger = new Logger();
     this.initializeRoutes();
   }
 
@@ -17,16 +15,11 @@ class UserController implements IController {
     this.router.get(`${this.path}/`, this.getUser);
   }
 
-  private getUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      this.logger.log('debug', 'Get User');
-      res.status(200).json({
-        user: 'Moses',
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+  private getUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    res.status(200).json({
+      user: 'Moses',
+    });
+  });
 }
 
 export default UserController;
